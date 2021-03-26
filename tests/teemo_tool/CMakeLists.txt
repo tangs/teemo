@@ -42,12 +42,13 @@ add_executable(
 	)
 
 # CURL
-find_package(CURL REQUIRED)
+#find_package(CURL REQUIRED)
 target_link_libraries(${EXE_NAME} ${CURL_LIBRARIES})
 
 # OpenSSL
-find_package(OpenSSL REQUIRED)
-target_link_libraries(${EXE_NAME} OpenSSL::SSL OpenSSL::Crypto)
+#find_package(OpenSSL REQUIRED)
+#target_link_libraries(${EXE_NAME} OpenSSL::SSL OpenSSL::Crypto)
+target_link_libraries(${LIB_NAME} PUBLIC ssl crypto)
 
 # Win32 Console
 if (WIN32 OR _WIN32)

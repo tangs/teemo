@@ -126,6 +126,11 @@ utf8string Teemo::targetFilePath() const noexcept {
   return impl_->options_.target_file_path;
 }
 
+void Teemo::setOriginFileSize(int64_t file_size) noexcept {
+    assert(impl_);
+    impl_->options_.file_size = file_size;
+}
+
 int64_t Teemo::originFileSize() const noexcept {
   assert(impl_);
   int64_t ret = -1;

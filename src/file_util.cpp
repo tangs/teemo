@@ -179,7 +179,7 @@ bool FileUtil::RemoveFile(const utf8string& filepath) {
   std::wstring unicode_filepath = Utf8ToUnicode(filepath);
   return (_wremove(unicode_filepath.c_str()) == 0);
 #else
-  return (remove(filepath.c_str()) != 0);
+  return (remove(filepath.c_str()) == 0);
 #endif
 }
 

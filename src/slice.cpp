@@ -19,6 +19,7 @@
 #include "curl_utils.h"
 #include "curl/curl.h"
 #include "options.h"
+#include <atomic>
 
 namespace teemo {
 
@@ -262,7 +263,7 @@ bool Slice::onNewData(const char* p, long data_size) {
 
     if (disk_cache_size_ - disk_cache_capacity_ >= data_size) {
       memcpy((char*)(disk_cache_buffer_ + disk_cache_capacity_.load()), p, data_size);
-      std::atomic_fetch_add(&disk_cache_capacity_, data_size);
+//      std::atomic_fetch_add(&disk_cache_capacity_, data_size);
       bret = true;
       break;
     }

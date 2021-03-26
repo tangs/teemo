@@ -18,6 +18,8 @@
 #include "curl_utils.h"
 #include "file_util.h"
 
+//void Log1(const char* txt, ...);
+
 namespace teemo {
 
 utf8string bool2string(bool b) {
@@ -289,52 +291,64 @@ Result EntryHandler::_asyncTaskProcess() {
 }
 
 bool EntryHandler::fetchFileInfo(int64_t& file_size) const {
-  ScopedCurl scoped_curl;
-  CURL* curl = scoped_curl.GetCurl();
-
-  curl_easy_setopt(curl, CURLOPT_VERBOSE, 0);
-  curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
-  curl_easy_setopt(curl, CURLOPT_URL, options_->url.c_str());
-  curl_easy_setopt(curl, CURLOPT_HEADER, 1);
-  curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
-  curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
-  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
-  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
-  curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, options_->network_conn_timeout);
-
-  //if (ca_path_.length() > 0)
-  //    curl_easy_setopt(curl, CURLOPT_CAINFO, ca_path_.c_str());
-
-  // avoid libcurl failed with "Failed writing body".
-  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, __fetchFileInfoCallback);
-
-  CURLcode ret_code = curl_easy_perform(curl);
-  if (ret_code != CURLE_OK) {
-    return false;
-  }
-
-  int http_code = 0;
-  ret_code = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
-
-  if (ret_code != CURLE_OK)
-    return false;
-
-  if (ret_code == CURLE_OK) {
-    if (http_code != 200 &&
-        // A 350 response code is sent by the server in response to a file-related command that
-        // requires further commands in order for the operation to be completed
-        http_code != 350) {
-      return false;
-    }
-  }
-
-  file_size = 0L;
-  ret_code = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &file_size);
-  if (ret_code != CURLE_OK) {
-    file_size = -1L;
-  }
-
-  outputVerbose("CURLINFO_CONTENT_LENGTH_DOWNLOAD_T: " + std::to_string((unsigned long)file_size));
+    file_size = options_->file_size;
+//    file_size = 3418L;
+//  Log1("1");
+//  ScopedCurl scoped_curl;
+//  CURL* curl = scoped_curl.GetCurl();
+//
+//  curl_easy_setopt(curl, CURLOPT_VERBOSE, 0);
+//  curl_easy_setopt(curl, CURLOPT_NOSIGNAL, 1L);
+//  curl_easy_setopt(curl, CURLOPT_URL, options_->url.c_str());
+//  curl_easy_setopt(curl, CURLOPT_HEADER, 1);
+//  curl_easy_setopt(curl, CURLOPT_NOBODY, 1);
+//  curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+//  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYHOST, 0);
+//  curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0);
+//  curl_easy_setopt(curl, CURLOPT_CONNECTTIMEOUT_MS, options_->network_conn_timeout);
+//
+//  //if (ca_path_.length() > 0)
+//  //    curl_easy_setopt(curl, CURLOPT_CAINFO, ca_path_.c_str());
+//
+//  // avoid libcurl failed with "Failed writing body".
+//  curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, __fetchFileInfoCallback);
+//    Log1("2");
+//
+//  CURLcode ret_code = curl_easy_perform(curl);
+//    Log1("3");
+//  if (ret_code != CURLE_OK) {
+//    return false;
+//  }
+//
+//  int http_code = 0;
+//  ret_code = curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &http_code);
+//    Log1("4");
+//
+//  if (ret_code != CURLE_OK)
+//    return false;
+//
+//  if (ret_code == CURLE_OK) {
+//    if (http_code != 200 &&
+//        // A 350 response code is sent by the server in response to a file-related command that
+//        // requires further commands in order for the operation to be completed
+//        http_code != 350) {
+//      return false;
+//    }
+//  }
+//    Log1("5");
+//
+//  file_size = 0L;
+//  double d = 0.0;
+//  ret_code = curl_easy_getinfo(curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d);
+//    Log1("6");
+//  if (ret_code != CURLE_OK) {
+//    file_size = -1L;
+//  } else {
+//      file_size = (int64_t)d;
+//  }
+//
+//    Log1("7");
+//  outputVerbose("CURLINFO_CONTENT_LENGTH_DOWNLOAD_T: " + std::to_string((unsigned long)file_size));
 
   return true;
 }

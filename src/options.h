@@ -37,6 +37,7 @@ typedef struct _Options {
 
   SlicePolicy slice_policy;
   int64_t slice_policy_value;
+  int64_t file_size;
 
   HashVerifyPolicy hash_verify_policy;
   HashType hash_type;

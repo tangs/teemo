@@ -205,6 +205,7 @@ class TEEMO_API Teemo {
   utf8string url() const noexcept;
   utf8string targetFilePath() const noexcept;
 
+  void setOriginFileSize(int64_t file_size) noexcept;
   // The file size of server side that will be downloaded.
   // Set to (-1) when get original file size failed.
   //
